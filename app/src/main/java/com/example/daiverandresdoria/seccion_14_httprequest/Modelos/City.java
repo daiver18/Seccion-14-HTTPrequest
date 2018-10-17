@@ -1,23 +1,22 @@
 package com.example.daiverandresdoria.seccion_14_httprequest.Modelos;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.SerializedName;
-
 public class City {
     private int id;
     private String name;
     private String country;
-    /*@SerializedName("main")
-    private Temperature temperature;*/
+    private String icon;
+    private String description;
+    private int temp;
 
     public City(){}
 
-    public City(int id, String name,String country/*Temperature temperature*/) {
+    public City(int id, String name,String country,String icon,String description,int temp) {
         this.id = id;
         this.name = name;
         this.country = country;
-        /*this.temperature = temperature;*/
+        this.icon = icon;
+        this.description = description;
+        this.temp = temp;
     }
 
     public int getId() {
@@ -44,17 +43,27 @@ public class City {
         this.country = country;
     }
 
-    /*public Temperature getTemperature() {
-        return temperature;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setTemperature(Temperature temperature) {
-        this.temperature = temperature;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
-    public static Temperature parseJSON(String response){
-        Gson gson = new GsonBuilder().create();
-        Temperature temp = gson.fromJson(response,Temperature.class);
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String descripcion) {
+        this.description = descripcion;
+    }
+
+    public int getTemp() {
         return temp;
-    }*/
+    }
+
+    public void setTemp(int temp) {
+        this.temp = temp;
+    }
 }

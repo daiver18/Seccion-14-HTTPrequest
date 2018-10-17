@@ -9,6 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class API {
     public static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
+    public static final String BASE_URL_ICON = "http://openweathermap.org/img/w/";
+    public static final String EXTENCION_ICON = ".png";
     private static Retrofit retrofit = null;
     public static final String API_KEY = "5a41c56a87719feab186130bf27e3985";
 
@@ -18,7 +20,6 @@ public class API {
 
             GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(City.class,new deserializador());
-
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(builder.create()))
