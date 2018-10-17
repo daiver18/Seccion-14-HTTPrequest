@@ -7,15 +7,17 @@ import com.google.gson.annotations.SerializedName;
 public class City {
     private int id;
     private String name;
-    @SerializedName("main")
-    private Temperature temperature;
+    private String country;
+    /*@SerializedName("main")
+    private Temperature temperature;*/
 
     public City(){}
 
-    public City(int id, String name,Temperature temperature) {
+    public City(int id, String name,String country/*Temperature temperature*/) {
         this.id = id;
         this.name = name;
-        this.temperature = temperature;
+        this.country = country;
+        /*this.temperature = temperature;*/
     }
 
     public int getId() {
@@ -34,7 +36,15 @@ public class City {
         this.name = name;
     }
 
-    public Temperature getTemperature() {
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    /*public Temperature getTemperature() {
         return temperature;
     }
 
@@ -46,5 +56,5 @@ public class City {
         Gson gson = new GsonBuilder().create();
         Temperature temp = gson.fromJson(response,Temperature.class);
         return temp;
-    }
+    }*/
 }
