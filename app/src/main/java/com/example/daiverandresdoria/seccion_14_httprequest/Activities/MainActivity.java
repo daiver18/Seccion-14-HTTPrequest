@@ -21,7 +21,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private TextView description,temp;
     private EditText inputCity;
     private ImageView weatherIcon;
@@ -31,38 +31,43 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("HTTP");
-        instance();
-
-        searchTemp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String codeCity = inputCity.getText().toString().trim();
-
-                WeatherService service = API.getAPI().create(WeatherService.class);
-                Call<City> cityCall = service.getcity("Colombia,CO",API.API_KEY,"metric");
-                cityCall.enqueue(new Callback<City>() {
-                    @Override
-                    public void onResponse(Call<City> call, Response<City> response) {
-                        City city = response.body();
-                        description.setText(city.getDescription());
-                        temp.setTextSize(city.getTemp());
-                        Picasso.get().load(API.BASE_URL_ICON+city.getIcon()+API.EXTENCION_ICON).fit().into(weatherIcon);
-                    }
-                    @Override
-                    public void onFailure(Call<City> call, Throwable t) {
-                        Toast.makeText(MainActivity.this,"error",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+        setUI();
+        searchTemp.setOnClickListener(this);
 
     }
-
-    private void instance(){
+    private void setUI(){
         inputCity = findViewById(R.id.inputCity);
         weatherIcon = findViewById(R.id.weatherIcon);
         description = findViewById(R.id.description);
-        temp = findViewById(R.id.temp);
+        temp = findViewById(R.id.Textviewtemp);
         searchTemp = findViewById(R.id.searchTemp);
+    }
+    
+    @Override
+    public void onClick(View v) {
+        String codeCity = inputCity.getText().toString().trim();
+        if (codeCity != null && !codeCity.isEmpty()){
+            WeatherService service = API.getAPI().create(WeatherService.class);
+            Call<City> cityCall = service.getcity(codeCity,API.API_KEY,"metric","es");
+            cityCall.enqueue(new Callback<City>() {
+                @Override
+                public void onResponse(Call<City> call, Response<City> response) {
+                    City city = response.body();
+                    setInfo(city);
+                }
+                @Override
+                public void onFailure(Call<City> call, Throwable t) {
+                    Toast.makeText(MainActivity.this,"error",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else {
+            Toast.makeText(MainActivity.this,"Please input a valid city",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setInfo(City city){
+        description.setText(city.getDescription());
+        temp.setText(city.getTemp()+"C°");
+        Picasso.get().load(API.BASE_URL_ICON+city.getIcon()+API.EXTENCION_ICON).placeholder(R.mipmap.weather).fit().into(weatherIcon);
     }
 }
